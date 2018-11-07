@@ -261,7 +261,7 @@ Function Check-File {
 		
 		If ($fileExist -eq $true) {	
 			If ($Struct.AlertOnExist -eq $true) {	
-				$OutputString =  "CRITICAL | File '$($Struct.File)' exists"
+				$OutputString =  "CRITICAL: File '$($Struct.File)' exists"
 				$Struct.ExitCode = 2
 			} Else {
 				$fileSize = (Get-Item $File).length
@@ -278,24 +278,24 @@ Function Check-File {
 				}
 
 				If (($Struct.CriticalReverse -eq $false) -and ($fileSize -ge $Struct.CriticalThreshold)) {
-					$OutputString =  "CRITICAL | File '$($Struct.File)' exceeds CRITICAL threshold size ($fileSize b >= $($Struct.CriticalThreshold) b)"
+					$OutputString =  "CRITICAL: File '$($Struct.File)' exceeds CRITICAL threshold size ($fileSize b >= $($Struct.CriticalThreshold) b)"
 					$Struct.ExitCode = 2
 				} ElseIf (($Struct.CriticalReverse -eq $True) -and ($fileSize -le $Struct.CriticalThreshold)) {
-					$OutputString =  "CRITICAL | File '$($Struct.File)' doesn't meet CRITICAL threshold minimal size ($fileSize b <= $($Struct.CriticalThreshold) b)"
+					$OutputString =  "CRITICAL: File '$($Struct.File)' doesn't meet CRITICAL threshold minimal size ($fileSize b <= $($Struct.CriticalThreshold) b)"
 					$Struct.ExitCode = 2
 				}
 			}
 		} Else {
 			If ($Struct.AlertOnNotExist -eq $true) {	
 				# File does not exist and it's a problem
-				$OutputString =  "CRITICAL | File '$($Struct.File) ' doesn't exist"
+				$OutputString =  "CRITICAL: File '$($Struct.File) ' doesn't exist"
 				$Struct.ExitCode = 2
 			} Else {
 				If (($Struct.CriticalReverse -eq $True) -and (0 -le $Struct.CriticalThreshold)) {
-					$OutputString =  "CRITICAL | Absent file '$($Struct.File)' doesn't meet CRITICAL threshold minimal size (0 b <= $($Struct.CriticalThreshold) b)"
+					$OutputString =  "CRITICAL: Absent file '$($Struct.File)' doesn't meet CRITICAL threshold minimal size (0 b <= $($Struct.CriticalThreshold) b)"
 					$Struct.ExitCode = 2
 				} ElseIf (($Struct.WarningReverse -eq $True) -and (0 -le $Struct.WarningThreshold)) {
-					$OutputString =  "WARNING | Absent file '$($Struct.File)' doesn't meet WARNING threshold minimal size (0 b <= $($Struct.WarningThreshold) b)"
+					$OutputString =  "WARNING: Absent file '$($Struct.File)' doesn't meet WARNING threshold minimal size (0 b <= $($Struct.WarningThreshold) b)"
 					$Struct.ExitCode = 1
 				} Else {
 					$OutputString =  "OK: File '$($Struct.File)' absent"
